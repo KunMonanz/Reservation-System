@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'phonenumber_field',
     'rest_framework.authtoken',
+    "drf_spectacular",
+    'django_filters',
 
     # Local apps
     'users',
@@ -138,4 +140,5 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
     'COERCE_DECIMAL_TO_STRING': False,
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }

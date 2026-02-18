@@ -1,5 +1,13 @@
 from rest_framework.generics import ListCreateAPIView
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import (
+    IsAuthenticated,
+    AllowAny,
+    IsAuthenticatedOrReadOnly
+)
+
+from django_filters.rest_framework import DjangoFilterBackend
+
+from .filters import TableFilter
 
 from .models import Reservation, Table
 
@@ -11,7 +19,9 @@ from .serializers import (
 
 class TableListCreateView(ListCreateAPIView):
     serializer_class = TableSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = TableFilter
 
     def get_queryset(self):
         return Table.objects.all()
@@ -24,7 +34,7 @@ class ReservationListCreateView(ListCreateAPIView):
     def get_queryset(self):
         return Reservation.objects \
             .select_related('table') \
-            .filter(user=self.request.user)
+            .filter(user=self.request.user, )
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
