@@ -33,6 +33,11 @@ class Table(models.Model):
 
 
 class Reservation(models.Model):
+    class Status(models.TextChoices):
+        PENDING = 'pending', 'Pending'
+        CONFIRMED = 'confirmed', 'Confirmed'
+        CANCELLED = 'cancelled', 'Cancelled'
+
     id = models.UUIDField(
         primary_key=True,
         default=uuid.uuid4,
@@ -47,6 +52,11 @@ class Reservation(models.Model):
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name='reservations'
+    )
+    status = models.CharField(
+        max_length=20,
+        choices=Status.choices,
+        default=Status.PENDING
     )
     date = models.DateField()
     time = models.TimeField()

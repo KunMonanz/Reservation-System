@@ -31,9 +31,15 @@ class ReservationSerializer(ModelSerializer):
             'date',
             'time',
             'guests',
+            'status',
             'created_at'
         ]
-        read_only_fields = ['id', 'user', 'created_at']
+        read_only_fields = [
+            'id',
+            'user',
+            'created_at',
+            'status'
+        ]
 
         def validate(self, data):
             table = data.get('table')
